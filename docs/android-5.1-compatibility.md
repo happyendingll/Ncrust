@@ -13,7 +13,7 @@
 
 ## 验证状态和构建前提
 
-本轮尚未证明可安装或稳定运行，不能据此发布为已验收的 Android 5.1 版本。
+本轮已通过下文所列远端编译、JVM 单测与 NewApi 检查；尚未证明 API 22 设备可安装或稳定运行，不能据此发布为已验收的 Android 5.1 版本。
 
 当前环境缺少同级 `../Kanesumi-sec-a`、Android SDK / `local.properties`，Gradle 9.3.1 下载也因 `services.gradle.org` DNS 解析失败而中断。因而 assemble、JVM 单测、lint 均未能通过 Gradle 执行；源码差异的空白检查通过。
 
@@ -51,3 +51,7 @@ CI 使用 JDK 21、Gradle 8.8 和项目 AGP 8.5，绕过尚未在此环境验证
 运行 `42181075248` 已通过 debug APK 编译和 JVM 单测并上传 APK。完整 lint 发现额外的 API 24 `stopForeground(int)` 调用和主题属性版本问题，已改为 ServiceCompat 并将系统栏亮色属性放入 v23 / v27 资源目录，待下一次远端验证。
 
 完整 lint 还报告了已有的 Auto 语音播放入口缺失及播放器 Crossfade 参数未使用，这些不属于 API 22 兼容修改。CI 通过 `ci/api22-lint.init.gradle` 对应用和四个库专门运行 `NewApi` 检查；该结果不代表完整 lint 全绿，也不代替设备验收。
+
+### 修复后的远端验证结果
+
+提交 `2c30b20` 的 [Actions 运行 42182064319](https://github.com/happyendingll/Ncrust/actions/runs/42182064319) 已成功：debug APK 编译、JVM 单测、应用与四个 Kanesumi 库的 NewApi 检查全部通过。产物 `ncrust-android-api22-debug-3` 保留 14 天。API 22 设备安装、登录、播放和后台行为仍待实测；完整 lint 的其他既有问题未在本轮修复。
