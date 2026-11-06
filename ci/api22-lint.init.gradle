@@ -1,0 +1,9 @@
+// Dedicated API availability gate. Other lint findings remain outside this gate.
+// Pass to both app and Kanesumi builds so all four library modules are checked.
+gradle.beforeProject { project ->
+    ['com.android.application', 'com.android.library'].each { pluginId ->
+        project.plugins.withId(pluginId) {
+            project.android.lint.checkOnly.add('NewApi')
+        }
+    }
+}

@@ -45,3 +45,9 @@
 CI 固定 Kanesumi 源码提交 `9ab6ffd9268047a9536c0063fdcea7839bcaf763`，应用仓内 `ci/patches/kanesumi-api22.patch` 将四个库模块最低版本降至 22；不使用 manifest 覆盖声明，并对主应用和四个库运行 lint。补丁仅修改依赖最低版本声明，是否存在其他 API 兼容问题仍以 lint 和设备验证为准。
 
 CI 使用 JDK 21、Gradle 8.8 和项目 AGP 8.5，绕过尚未在此环境验证的 Gradle 9.3.1 wrapper。根 wrapper 暂不改动。
+
+### 首次远端验证结果
+
+运行 `42181075248` 已通过 debug APK 编译和 JVM 单测并上传 APK。完整 lint 发现额外的 API 24 `stopForeground(int)` 调用和主题属性版本问题，已改为 ServiceCompat 并将系统栏亮色属性放入 v23 / v27 资源目录，待下一次远端验证。
+
+完整 lint 还报告了已有的 Auto 语音播放入口缺失及播放器 Crossfade 参数未使用，这些不属于 API 22 兼容修改。CI 通过 `ci/api22-lint.init.gradle` 对应用和四个库专门运行 `NewApi` 检查；该结果不代表完整 lint 全绿，也不代替设备验收。

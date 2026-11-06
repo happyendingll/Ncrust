@@ -49,10 +49,10 @@ jobs:
           gradle-version: '8.8'
       - name: Build debug APK and run JVM tests
         run: gradle --no-daemon :app:assembleDebug :app:testDebugUnitTest
-      - name: Check app and dependency lint
+      - name: Check app and dependency API compatibility
         run: |
-          gradle --no-daemon :app:lintDebug
-          gradle --no-daemon -p ../Kanesumi-sec-a :kanesumi-core:lintDebug :kanesumi-anim:lintDebug :kanesumi-controls:lintDebug :kanesumi-structure:lintDebug
+          gradle --no-daemon -I ci/api22-lint.init.gradle :app:lintDebug
+          gradle --no-daemon -I "$PWD/ci/api22-lint.init.gradle" -p ../Kanesumi-sec-a :kanesumi-core:lintDebug :kanesumi-anim:lintDebug :kanesumi-controls:lintDebug :kanesumi-structure:lintDebug
       - name: Upload debug APK
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

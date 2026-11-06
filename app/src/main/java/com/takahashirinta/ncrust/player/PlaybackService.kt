@@ -349,7 +349,7 @@ class PlaybackService : MediaLibraryService() {
             "resume" -> { resumePlayback() }
             "stop" -> {
                 PlaybackStateManager.clearState(this)
-                stopForeground(STOP_FOREGROUND_REMOVE)
+                androidx.core.app.ServiceCompat.stopForeground(this, androidx.core.app.ServiceCompat.STOP_FOREGROUND_REMOVE)
                 mediaSessionCompat?.isActive = false
                 mediaSessionCompat?.release()
                 mediaTitle = "Ncrust"
@@ -880,7 +880,7 @@ class PlaybackService : MediaLibraryService() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         Log.d("PlaybackService", "onTaskRemoved")
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        androidx.core.app.ServiceCompat.stopForeground(this, androidx.core.app.ServiceCompat.STOP_FOREGROUND_REMOVE)
         mediaSessionCompat?.isActive = false
         mediaSessionCompat?.release()
         mediaTitle = "Ncrust"
