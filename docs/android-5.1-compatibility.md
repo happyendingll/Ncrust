@@ -37,3 +37,11 @@
 - 更新下载、旧系统签名检查与系统安装器打开。
 
 厂商导航混音、休眠唤醒、方控另行实测，不属于本轮通用兼容改动的验收结论。
+
+## Fork 自动打包
+
+`.github/workflows/android-api22.yml` 在推送 `main` 或手动触发时构建 debug APK，产物保留 14 天，不自动发布 Release。调试签名不能覆盖原正式签名安装包。
+
+CI 固定 Kanesumi 源码提交 `9ab6ffd9268047a9536c0063fdcea7839bcaf763`，应用仓内 `ci/patches/kanesumi-api22.patch` 将四个库模块最低版本降至 22；不使用 manifest 覆盖声明，并对主应用和四个库运行 lint。补丁仅修改依赖最低版本声明，是否存在其他 API 兼容问题仍以 lint 和设备验证为准。
+
+CI 使用 JDK 21、Gradle 8.8 和项目 AGP 8.5，绕过尚未在此环境验证的 Gradle 9.3.1 wrapper。根 wrapper 暂不改动。

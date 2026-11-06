@@ -1,0 +1,52 @@
+diff --git a/kanesumi-anim/build.gradle.kts b/kanesumi-anim/build.gradle.kts
+index 6ed5078..0be18af 100644
+--- a/kanesumi-anim/build.gradle.kts
++++ b/kanesumi-anim/build.gradle.kts
+@@ -8,7 +8,7 @@ android {
+     compileSdk = 36
+ 
+     defaultConfig {
+-        minSdk = 24
++        minSdk = 22
+         consumerProguardFiles("consumer-rules.pro")
+     }
+ 
+diff --git a/kanesumi-controls/build.gradle.kts b/kanesumi-controls/build.gradle.kts
+index 4e6acf7..71b2281 100644
+--- a/kanesumi-controls/build.gradle.kts
++++ b/kanesumi-controls/build.gradle.kts
+@@ -8,7 +8,7 @@ android {
+     compileSdk = 36
+ 
+     defaultConfig {
+-        minSdk = 24
++        minSdk = 22
+         consumerProguardFiles("consumer-rules.pro")
+     }
+ 
+diff --git a/kanesumi-core/build.gradle.kts b/kanesumi-core/build.gradle.kts
+index 034eb2b..59b4b28 100644
+--- a/kanesumi-core/build.gradle.kts
++++ b/kanesumi-core/build.gradle.kts
+@@ -8,7 +8,7 @@ android {
+     compileSdk = 36
+ 
+     defaultConfig {
+-        minSdk = 24
++        minSdk = 22
+         consumerProguardFiles("consumer-rules.pro")
+     }
+ 
+diff --git a/kanesumi-structure/build.gradle.kts b/kanesumi-structure/build.gradle.kts
+index 951f33d..73a6eb7 100644
+--- a/kanesumi-structure/build.gradle.kts
++++ b/kanesumi-structure/build.gradle.kts
+@@ -8,7 +8,7 @@ android {
+     compileSdk = 36
+ 
+     defaultConfig {
+-        minSdk = 24
++        minSdk = 22
+         consumerProguardFiles("consumer-rules.pro")
+     }
+ 

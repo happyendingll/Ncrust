@@ -1,0 +1,70 @@
+name: Android API 22 debug APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-api22-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: Ncrust
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: Ncrust
+      - uses: actions/checkout@v4
+        with:
+          repository: GuitaristRin/Kanesumi-sec-a
+          ref: 9ab6ffd9268047a9536c0063fdcea7839bcaf763
+          path: Kanesumi-sec-a
+          persist-credentials: false
+      - name: Apply reviewed API 22 dependency patch
+        run: |
+          git -C ../Kanesumi-sec-a apply --check "$PWD/ci/patches/kanesumi-api22.patch"
+          git -C ../Kanesumi-sec-a apply "$PWD/ci/patches/kanesumi-api22.patch"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: sdkmanager 'platforms;android-36' 'build-tools;34.0.0'
+      # AGP 8.5 uses Gradle 8.x; avoid the repository's unverified 9.3.1 wrapper.
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.8'
+      - name: Build debug APK and run JVM tests
+        run: gradle --no-daemon :app:assembleDebug :app:testDebugUnitTest
+      - name: Check app and dependency lint
+        run: |
+          gradle --no-daemon :app:lintDebug
+          gradle --no-daemon -p ../Kanesumi-sec-a :kanesumi-core:lintDebug :kanesumi-anim:lintDebug :kanesumi-controls:lintDebug :kanesumi-structure:lintDebug
+      - name: Upload debug APK
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ncrust-android-api22-debug-${{ github.run_number }}
+          path: Ncrust/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload test and lint reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-api22-reports-${{ github.run_number }}
+          path: |
+            Ncrust/app/build/reports/
+            Kanesumi-sec-a/kanesumi-*/build/reports/
+          if-no-files-found: warn
+          retention-days: 14
