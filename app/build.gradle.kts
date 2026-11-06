@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.takahashirinta.ncrust"
-        minSdk = 24
+        minSdk = 22
         targetSdk = 36
         versionCode = 9
         versionName = "1.4.1"

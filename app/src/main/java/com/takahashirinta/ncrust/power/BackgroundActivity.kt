@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 
@@ -22,6 +23,8 @@ object BackgroundActivity {
 
     /** 是否已在电池优化白名单内（无法读取 PowerManager 时按已授权处理，避免误弹）。 */
     fun isUnrestricted(context: Context): Boolean {
+        // Android 5.1 尚无 Doze / 电池优化白名单，不弹首次授权提示。
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true
         val pm = context.getSystemService(Context.POWER_SERVICE) as? PowerManager ?: return true
         return pm.isIgnoringBatteryOptimizations(context.packageName)
     }
@@ -29,8 +32,12 @@ object BackgroundActivity {
     /** 跳转"允许后台活动 / 忽略电池优化"的系统弹窗。 */
     @SuppressLint("BatteryLife")
     fun requestIntent(context: Context): Intent =
-        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-            .setData(Uri.parse("package:${context.packageName}"))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                .setData(Uri.parse("package:${context.packageName}"))
+        } else {
+            appDetailsIntent(context)
+        }
 
     /** 部分 ROM 不认直达弹窗时，退回到应用详情页。 */
     fun appDetailsIntent(context: Context): Intent =

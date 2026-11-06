@@ -12,7 +12,7 @@ Android · Kotlin + Jetpack Compose + Media3 ｜ Windows · C# + UWP + WinUI 2 �
 
 [![Version](https://img.shields.io/badge/version-1.3.2-brightgreen?style=flat-square)](https://github.com/GuitaristRin/Ncrust/releases)
 [![APK](https://img.shields.io/badge/APK-3.9%20MB-blue?style=flat-square)](https://github.com/GuitaristRin/Ncrust/releases)
-[![API](https://img.shields.io/badge/API-24%2B-green?style=flat-square&logo=android)](https://developer.android.com)
+[![API](https://img.shields.io/badge/API-22%2B-green?style=flat-square&logo=android)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.24-purple?style=flat-square&logo=kotlin)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/Compose-BOM%202024.12-blue?style=flat-square&logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
 [![Windows](https://img.shields.io/badge/Windows-1.0.0-0078D4?style=flat-square&logo=windows11)](https://github.com/GuitaristRin/Ncrust/releases)
@@ -136,7 +136,7 @@ App 不提供手动粘贴 Cookie，登录方式：
 
 ### 环境要求
 
-Android Studio Hedgehog+ · JDK 11 · Kotlin 1.9.24 · Gradle 9.3.1 · Android SDK 36（minSdk 24）
+Android Studio Hedgehog+ · JDK 11 · Kotlin 1.9.24 · Gradle 9.3.1 · Android SDK 36（minSdk 22；Android 5.1 兼容验证状态见 [适配说明](docs/android-5.1-compatibility.md)）
 
 ### ⚠️ 必须先克隆 Kanesumi
 

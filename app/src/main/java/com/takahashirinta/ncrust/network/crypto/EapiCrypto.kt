@@ -28,7 +28,12 @@ object EapiCrypto {
      * 与请求同钥匙 e82ckenh8dichen8，PKCS5 去填充后去掉尾部冗余 '\r'。
      */
     fun decryptResponse(body: String): String {
-        val bytes = try { java.util.Base64.getDecoder().decode(body) } catch (_: Exception) { return "" }
+        val bytes = try { XeapiCrypto.base64Decode(body) } catch (_: Exception) { return "" }
+        return decryptResponse(bytes)
+    }
+
+    /** 原始响应直接解密，避免 Base64 往返及 API 26 的 java.util.Base64。 */
+    fun decryptResponse(bytes: ByteArray): String {
         if (bytes.isEmpty()) return ""
         return try {
             val cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")

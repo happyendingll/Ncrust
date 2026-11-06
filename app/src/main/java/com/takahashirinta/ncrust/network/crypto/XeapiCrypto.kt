@@ -17,7 +17,7 @@ import kotlin.math.min
  * 协议全文：`spec/api/xeapi.md`；参考实现：`spec/tools/xeapi.mjs`（本文件逐行对照它移植）。
  *
  * 为什么自带 base64 而不用平台库：
- *  - `java.util.Base64` 要 API 26，minSdk 是 24；
+ *  - `java.util.Base64` 要 API 26，minSdk 是 22；
  *  - `android.util.Base64` 在 JVM 单测里是空桩（android.jar 的 "not mocked"），
  *    于是恰好就没法拿夹具逐字节对照——而 xeapi 的易错点全在编码细节上。
  * 自己写 ~60 行编解码（标准带填充 + url-safe 不带填充），同一份实现既跑设备也跑单测。
@@ -41,7 +41,7 @@ object XeapiCrypto {
     private const val B64_STD = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     private const val B64_URL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 
-    // 不用 BigInteger.TWO：它在 Android 上要 API 31（无 core library desugaring），minSdk 是 24。
+    // 不用 BigInteger.TWO：它在 Android 上要 API 31（无 core library desugaring），minSdk 是 22。
     private val P25519 = BigInteger.valueOf(2).pow(255).subtract(BigInteger.valueOf(19))
 
     /** RFC 7748 的 a24 = (486662 - 2) / 4。 */
@@ -137,7 +137,7 @@ object XeapiCrypto {
     /**
      * X25519 标量乘法（Montgomery ladder）。
      *
-     * 自己实现而不是 `KeyAgreement("XDH")`：XDH 要 API 33，minSdk 是 24；RFC 7748 的
+     * 自己实现而不是 `KeyAgreement("XDH")`：XDH 要 API 33，minSdk 是 22；RFC 7748 的
      * 算法短且自包含，用 [BigInteger] 写最省事，255 轮 modmul 在低端机上也是毫秒级。
      * clamp 在函数内做（私钥入参按原样传即可）。
      */

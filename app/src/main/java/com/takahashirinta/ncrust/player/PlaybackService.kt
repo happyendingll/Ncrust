@@ -808,7 +808,7 @@ class PlaybackService : MediaLibraryService() {
                 startForeground(1, n)
                 isServiceStarted = true
             } else {
-                getSystemService(NotificationManager::class.java)?.notify(1, n)
+                (getSystemService(android.content.Context.NOTIFICATION_SERVICE) as? NotificationManager)?.notify(1, n)
             }
         } catch (e: Exception) {
             Log.e("PlaybackService", "Failed to update notification", e)

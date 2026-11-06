@@ -288,10 +288,16 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             .edit().putBoolean("lyrics_translation", enabled).apply()
     }
 
+    @Suppress("DEPRECATION")
     private fun isOnWifi(): Boolean {
         val cm = getApplication<Application>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return cm.getNetworkCapabilities(cm.activeNetwork)
-            ?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cm.getNetworkCapabilities(cm.activeNetwork)
+                ?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+        } else {
+            // API 22 没有 activeNetwork；读取当前活动网络，避免把未连接的 Wi-Fi 当作在用。
+            cm.activeNetworkInfo?.let { it.isConnected && it.type == ConnectivityManager.TYPE_WIFI } == true
+        }
     }
 
     /**

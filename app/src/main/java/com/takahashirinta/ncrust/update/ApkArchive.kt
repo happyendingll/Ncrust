@@ -12,9 +12,9 @@ import java.security.MessageDigest
  *
  * 这里只负责把 Android API 的差异吃掉，规则在纯函数 [ApkVerification] 里：
  *  - API 28+：`GET_SIGNING_CERTIFICATES` + `signingInfo`，版本号用 `longVersionCode`；
- *  - API 24~27：`GET_SIGNATURES` + `signatures`，`versionCode` 是 Int。
+ *  - API 22~27：`GET_SIGNATURES` + `signatures`，`versionCode` 是 Int。
  *
- * minSdk 是 24，两条路径都必须真的能走，不能只写新 API 再补个 `@Suppress`。
+ * minSdk 是 22，两条路径都必须真的能走，不能只写新 API 再补个 `@Suppress`。
  */
 object ApkArchive {
 

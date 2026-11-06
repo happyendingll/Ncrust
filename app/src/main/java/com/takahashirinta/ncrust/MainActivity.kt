@@ -1208,7 +1208,7 @@ fun MainScreen(
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             if (event != androidx.lifecycle.Lifecycle.Event.ON_RESUME) return@LifecycleEventObserver
             val clip = try {
-                context.getSystemService(android.content.ClipboardManager::class.java)
+                (context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as? android.content.ClipboardManager)
                     ?.primaryClip?.getItemAt(0)?.text?.toString()
             } catch (_: Exception) { null } ?: return@LifecycleEventObserver
             if (clip == lastHandledClip.value || !clip.contains("163")) return@LifecycleEventObserver

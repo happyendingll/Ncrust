@@ -811,7 +811,7 @@ object PlaylistApi {
             Log.w("PlaylistApi", "likeSong(eapi) id=$songId like=$like http=${http.code} no body elapsedMs=$elapsed")
             return -1
         }
-        val plain = EapiCrypto.decryptResponse(java.util.Base64.getEncoder().encodeToString(raw))
+        val plain = EapiCrypto.decryptResponse(raw)
         val jsonText = plain.ifEmpty { String(raw) }
         var code = -1
         var parseOk = false

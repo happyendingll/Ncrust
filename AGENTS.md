@@ -26,7 +26,7 @@ Toolchain:
 | | |
 |---|---|
 | compileSdk / targetSdk | 36 (Android 15) |
-| minSdk | 24 |
+| minSdk | 22 (Android 5.1; source compatibility work, device validation pending) |
 | Java / jvmTarget | 11 |
 | Kotlin | 1.9.24 |
 | Compose BOM | 2024.12.01 (compiler ext 1.5.14) |
@@ -342,3 +342,7 @@ To add a locale: create `xx_XX.kt` with a `Strings(...)` and add a `LanguagePres
 - **Stale comments**: some comments say "last 20 s" for the gapless preload window (actual 60 s) and "4 Hz" for progress ticks (actual 2 Hz). Trust the code.
 - **`SongDetailScreen` / `NavRoutes.song(...)` are registered but unreachable** — clipboard song links load into the player instead.
 - **`ncrust-api/` is not part of the app** — see Repository Layout.
+
+### Android 5.1 compatibility
+
+The main app declares `minSdk = 22`. Keep the pinned dependency versions until their API 22 compatibility is checked; the external Kanesumi composite build must also support API 22. `benchmark/` remains API 24+ and does not establish API 22 device support. Guard API 23 network / battery APIs and use string-based system-service lookup on API 22. eapi response decryption must not use API 26 `java.util.Base64`. See `docs/android-5.1-compatibility.md` for validation status.
